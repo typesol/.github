@@ -35,5 +35,31 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 | --- | --- |
 | [typesol](https://github.com/typesol/typesol) | The compiler, runtime and CLI (MIT) |
 
-**Status:** pre-1.0, not yet audited by an independent firm. Releases follow [one versioning policy](https://github.com/typesol/.github/blob/main/VERSIONING.md) across the organization. Contributions and issues are welcome in
-[typesol/typesol](https://github.com/typesol/typesol).
+<!-- stats:start (generated daily by scripts/stats.mjs; edit outside the markers) -->
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-dark.svg">
+    <img alt="2 public repositories, 0 stars, 0 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-light.svg" width="800">
+  </picture>
+</p>
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos-dark.svg">
+    <img alt="Stars and forks per repository" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos-light.svg" width="800">
+  </picture>
+</p>
+<p align="center"><sub>Public repositories only. Checked daily; redrawn when a number changes.</sub></p>
+<!-- stats:end -->
+
+### Contributing
+
+- **Try it and report what breaks.** [Open an issue](https://github.com/typesol/typesol/issues/new) with the program
+  (or the smallest part of it) and the compiler's message: a construct TypeSOL refuses is a feature request too.
+- **Send a pull request.** [CONTRIBUTING.md](https://github.com/typesol/typesol/blob/main/CONTRIBUTING.md) covers the
+  setup, the test suite (LiteSVM, no validator needed) and what a change needs before it is merged.
+- **Port an example.** [test/ports](https://github.com/typesol/typesol/blob/main/test/ports/README.md) tracks every
+  program in solana-developers/program-examples; the NOT ATTEMPTED ones are open.
+- **Security issues** go to the private channel in [SECURITY.md](https://github.com/typesol/typesol/blob/main/SECURITY.md),
+  not to public issues.
+
+**Status:** pre-1.0, not yet audited by an independent firm. Releases follow [one versioning policy](https://github.com/typesol/.github/blob/main/VERSIONING.md) across the organization.

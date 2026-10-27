@@ -1,0 +1,35 @@
+# Public organization statistics for profile/README.md: stars, forks and public repositories, checked daily.
+# Uses only the workflow's own token (public data); traffic is collected privately elsewhere.
+name: stats
+on:
+  schedule:
+    - cron: "40 0 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: stats
+  cancel-in-progress: false
+
+jobs:
+  stats:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Collect and draw
+        run: node scripts/stats.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Commit when something changed
+        run: |
+          git add stats profile
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git -c user.name=orvexa -c user.email=348155005+orvexa-devnet@users.noreply.github.com \
+            commit -q -m "Update organization statistics"
+          git push -q
