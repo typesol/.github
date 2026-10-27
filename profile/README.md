@@ -35,5 +35,5 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 | --- | --- |
 | [typesol](https://github.com/typesol/typesol) | The compiler, runtime and CLI (MIT) |
 
-**Status:** 0.10 release candidate, not yet audited by an independent firm. Contributions and issues are welcome in
+**Status:** pre-1.0, not yet audited by an independent firm. Releases follow [one versioning policy](https://github.com/typesol/.github/blob/main/VERSIONING.md) across the organization. Contributions and issues are welcome in
 [typesol/typesol](https://github.com/typesol/typesol).
