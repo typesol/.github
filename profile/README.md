@@ -9,11 +9,16 @@
   <a href="https://typesol.com/docs/">Docs</a> ·
   <a href="https://github.com/typesol/typesol">Compiler</a> ·
   <a href="https://typesol.com/docs/changelog/">Changelog</a> ·
+  <a href="https://www.npmjs.com/package/@typesol/cli">npm</a> ·
   <a href="https://x.com/type_sol">X</a>
 </p>
 
 TypeSOL compiles a TypeScript subset straight to Solana bytecode: no interpreter, no generated Rust. Every build also
 writes an Anchor-compatible IDL, so existing Solana tooling keeps working.
+
+```sh
+npx @typesol/cli init my-app
+```
 
 ```ts
 export function increment(authority: Signer, counter: Mut<Counter>, by: u64): void {
@@ -33,7 +38,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 
 | Repository | |
 | --- | --- |
-| [typesol](https://github.com/typesol/typesol) | The compiler, runtime and CLI (MIT) |
+| [typesol](https://github.com/typesol/typesol) | The compiler, runtime and CLI (MIT), on npm as [`@typesol/cli`](https://www.npmjs.com/package/@typesol/cli) |
 
 <!-- stats:start (generated daily by scripts/stats.mjs; edit outside the markers) -->
 <p align="center">
