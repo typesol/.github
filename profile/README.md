@@ -8,6 +8,7 @@
   <a href="https://typesol.com">Website</a> ·
   <a href="https://typesol.com/docs/">Docs</a> ·
   <a href="https://github.com/typesol/typesol">Compiler</a> ·
+  <a href="https://github.com/typesol/benchmarks">Benchmarks</a> ·
   <a href="https://typesol.com/docs/changelog/">Changelog</a> ·
   <a href="https://www.npmjs.com/package/@typesol/cli">npm</a> ·
   <a href="https://x.com/type_sol">X</a>
@@ -39,6 +40,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 | Repository | |
 | --- | --- |
 | [typesol](https://github.com/typesol/typesol) | The compiler, runtime and CLI (MIT), on npm as [`@typesol/cli`](https://www.npmjs.com/package/@typesol/cli) |
+| [benchmarks](https://github.com/typesol/benchmarks) | TypeSOL, Anchor, native Rust and Pinocchio compared on compute units and binary size, reproducible from a pinned compiler and toolchain (MIT) |
 
 <!-- stats:start (generated daily by scripts/stats.mjs; edit outside the markers) -->
 <p align="center">
@@ -63,7 +65,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 - **Send a pull request.** [CONTRIBUTING.md](https://github.com/typesol/typesol/blob/main/CONTRIBUTING.md) covers the
   setup, the test suite (LiteSVM, no validator needed) and what a change needs before it is merged.
 - **Port an example.** [test/ports](https://github.com/typesol/typesol/blob/main/test/ports/README.md) tracks every
-  program in solana-developers/program-examples; the NOT ATTEMPTED ones are open.
+  program in solana-developers/program-examples; the PARTIAL ones are open.
 - **Security issues** go to the private channel in [SECURITY.md](https://github.com/typesol/typesol/blob/main/SECURITY.md),
   not to public issues.
 
