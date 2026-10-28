@@ -44,8 +44,19 @@ const known = new Set(Object.values(history).flatMap((day) => Object.keys(day)))
 for (const r of repos) {
   if (known.has(r.name)) continue;
   // First sight: per-day counts from the current stargazers' and forks' dates (unstarred and deleted ones are gone).
-  const starred = (await all(`/repos/${ORG}/${r.name}/stargazers`, "application/vnd.github.star+json")).map((s) => s.starred_at.slice(0, 10));
-  const forked = (await all(`/repos/${ORG}/${r.name}/forks`)).map((f) => f.created_at.slice(0, 10));
+  // The workflow's token cannot always list another repository's stargazers (403); then the repository's history
+  // starts today, from its current counts.
+  const dates = async (path, accept, pick) => {
+    try {
+      return (await all(path, accept)).map(pick);
+    } catch (e) {
+      console.warn(`${r.name}: no history (${e.message}); counting from today`);
+      return null;
+    }
+  };
+  const starred = await dates(`/repos/${ORG}/${r.name}/stargazers`, "application/vnd.github.star+json", (s) => s.starred_at.slice(0, 10));
+  const forked = await dates(`/repos/${ORG}/${r.name}/forks`, undefined, (f) => f.created_at.slice(0, 10));
+  if (!starred || !forked) continue;
   const days = [...new Set([...starred, ...forked])].filter((d) => d < today).sort();
   for (const d of days) {
     history[d] ??= {};
