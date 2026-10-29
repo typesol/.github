@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security issue
+    url: https://github.com/typesol/typesol/security
+    about: Report privately with GitHub private vulnerability reporting, not in an issue.
+  - name: Documentation
+    url: https://typesol.com/docs/
+    about: Language reference, CLI, testing and deployment guides.

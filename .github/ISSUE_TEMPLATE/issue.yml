@@ -1,0 +1,20 @@
+name: Issue
+description: Something is wrong or missing in this repository.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Compiler, runtime or CLI problems belong in [typesol/typesol](https://github.com/typesol/typesol/issues/new/choose).
+        Security issues: do not open an issue, follow SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran, what you expected, and what happened instead (with the full output).
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: The commit or release you used, and anything else that matters (Node, Agave / platform-tools, OS).
