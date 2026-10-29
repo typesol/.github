@@ -46,7 +46,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-dark.svg">
-    <img alt="3 public repositories, 3 stars, 0 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-light.svg" width="800">
+    <img alt="3 public repositories, 4 stars, 1 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-light.svg" width="800">
   </picture>
 </p>
 <p align="center">
