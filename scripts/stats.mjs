@@ -1,9 +1,9 @@
 // Public statistics for the organization profile (.github/workflows/stats.yml, daily): every public repository's stars
-// and forks, kept by date in stats/history.json, drawn into profile/stats-*.svg and profile/repos-*.svg, and linked
+// and forks, kept by date in stats/history.json, drawn into profile/stats-*.svg and profile/repos/*.svg (one image per repository, linked to it), and shown
 // from profile/README.md between the stats markers. Public data only: traffic stays on the private dashboard.
 // A repository seen for the first time gets its history rebuilt from its stargazers' and forks' dates.
 //   GITHUB_TOKEN=… node scripts/stats.mjs        (the token only raises the API rate limit)
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 
 const ORG = process.env.GITHUB_ORG ?? "typesol";
 const API = "https://api.github.com";
@@ -135,33 +135,47 @@ function statsSvg(t) {
   return s + "</svg>\n";
 }
 
-function reposSvg(t) {
-  const rows = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count || a.name.localeCompare(b.name));
-  const W = 800, RH = 52, H = 44 + rows.length * RH + 10;
-  let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Stars and forks per TypeSOL repository">`;
-  s += `<rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="12" fill="${t.bg}" stroke="${t.line}"/>`;
-  s += `<text x="24" y="30" ${FONT} font-size="12" fill="${t.muted}">Repository</text>`;
-  s += `<text x="470" y="30" ${FONT} font-size="12" fill="${t.muted}" text-anchor="end">Stars</text>`;
-  s += `<text x="550" y="30" ${FONT} font-size="12" fill="${t.muted}" text-anchor="end">Forks</text>`;
-  s += `<text x="580" y="30" ${FONT} font-size="12" fill="${t.muted}">Stars over time</text>`;
-  rows.forEach((r, i) => {
-    const y = 44 + i * RH;
-    s += `<line x1="16" x2="${W - 16}" y1="${y}" y2="${y}" stroke="${t.line}"/>`;
-    s += `<text x="24" y="${y + 22}" ${MONO} font-size="14" font-weight="600" fill="${t.fg}">${esc(r.name)}</text>`;
-    const desc = (r.description ?? "").length > 58 ? `${r.description.slice(0, 57)}…` : (r.description ?? "");
-    s += `<text x="24" y="${y + 40}" ${FONT} font-size="12" fill="${t.muted}">${esc(desc)}</text>`;
-    s += `<text x="470" y="${y + 30}" ${MONO} font-size="14" fill="${t.fg}" text-anchor="end">${fmt(r.stargazers_count)}</text>`;
-    s += `<text x="550" y="${y + 30}" ${MONO} font-size="14" fill="${t.fg}" text-anchor="end">${fmt(r.forks_count)}</text>`;
-    const v = series[r.name].stars;
-    s += `<path d="${path(v, 580, y + 12, 190, 26, Math.max(1, ...v))}" fill="none" stroke="${t.stars}" stroke-width="1.6" stroke-linejoin="round"/>`;
-  });
+// Per-repository rows, each its own image so the README can link it to its repository (GitHub draws an SVG as an
+// image: links inside it do nothing). A header with the column names, then one card per repository.
+const rows = [...repos].sort((a, b) => b.stargazers_count - a.stargazers_count || a.name.localeCompare(b.name));
+const COLS = { stars: 470, forks: 550, chart: 580 };
+function headSvg(t) {
+  const W = 800, H = 30;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Repository, stars, forks, stars over time">`;
+  s += `<text x="24" y="20" ${FONT} font-size="12" fill="${t.muted}">Repository</text>`;
+  s += `<text x="${COLS.stars}" y="20" ${FONT} font-size="12" fill="${t.muted}" text-anchor="end">Stars</text>`;
+  s += `<text x="${COLS.forks}" y="20" ${FONT} font-size="12" fill="${t.muted}" text-anchor="end">Forks</text>`;
+  s += `<text x="${COLS.chart}" y="20" ${FONT} font-size="12" fill="${t.muted}">Stars over time</text>`;
+  return s + "</svg>\n";
+}
+function rowSvg(t, r) {
+  const W = 800, H = 60;
+  const desc = (r.description ?? "").length > 58 ? `${r.description.slice(0, 57)}…` : (r.description ?? "");
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(r.name)}: ${r.stargazers_count} stars, ${r.forks_count} forks">`;
+  s += `<rect x="0.5" y="0.5" width="${W - 1}" height="${H - 1}" rx="10" fill="${t.bg}" stroke="${t.line}"/>`;
+  s += `<text x="24" y="26" ${MONO} font-size="14" font-weight="600" fill="${t.fg}">${esc(r.name)}</text>`;
+  s += `<text x="24" y="45" ${FONT} font-size="12" fill="${t.muted}">${esc(desc)}</text>`;
+  s += `<text x="${COLS.stars}" y="35" ${MONO} font-size="14" fill="${t.fg}" text-anchor="end">${fmt(r.stargazers_count)}</text>`;
+  s += `<text x="${COLS.forks}" y="35" ${MONO} font-size="14" fill="${t.fg}" text-anchor="end">${fmt(r.forks_count)}</text>`;
+  const v = series[r.name].stars;
+  s += `<path d="${path(v, COLS.chart, 17, 190, 26, Math.max(1, ...v))}" fill="none" stroke="${t.stars}" stroke-width="1.6" stroke-linejoin="round"/>`;
+  s += `<text x="${W - 18}" y="35" ${FONT} font-size="14" fill="${t.muted}" text-anchor="end">›</text>`;
   return s + "</svg>\n";
 }
 
+mkdirSync("profile/repos", { recursive: true });
+const drawn = new Set();
 for (const [name, t] of Object.entries(THEMES)) {
   writeFileSync(`profile/stats-${name}.svg`, statsSvg(t));
-  writeFileSync(`profile/repos-${name}.svg`, reposSvg(t));
+  writeFileSync(`profile/repos/_head-${name}.svg`, headSvg(t));
+  drawn.add(`_head-${name}.svg`);
+  for (const r of rows) {
+    writeFileSync(`profile/repos/${r.name}-${name}.svg`, rowSvg(t, r));
+    drawn.add(`${r.name}-${name}.svg`);
+  }
 }
+// Rows of repositories that are no longer public go.
+for (const f of readdirSync("profile/repos")) if (!drawn.has(f)) rmSync(`profile/repos/${f}`);
 
 // The README section between the markers (created once, below the intro, if missing).
 const RAW = `https://raw.githubusercontent.com/${ORG}/.github/main/profile`;
@@ -170,7 +184,13 @@ const pic = (file, alt, width) =>
 const block = [
   "<!-- stats:start (generated daily by scripts/stats.mjs; edit outside the markers) -->",
   `<p align="center">\n  ${pic("stats", `${repos.length} public repositories, ${sum("stargazers_count")} stars, ${sum("forks_count")} forks`, 800)}\n</p>`,
-  `<p align="center">\n  ${pic("repos", "Stars and forks per repository", 800)}\n</p>`,
+  // Each row links to its repository.
+  `<p align="center">\n  ${pic("repos/_head", "Repository, stars, forks, stars over time", 800)}<br>\n` +
+    rows
+      // On one line: whitespace inside the link would show as underlined gaps.
+      .map((r) => `  <a href="https://github.com/${ORG}/${r.name}">${pic(`repos/${r.name}`, `${r.name}: ${r.stargazers_count} stars, ${r.forks_count} forks`, 800).replace(/\n\s*/g, "")}</a>`)
+      .join("<br>\n") +
+    "\n</p>",
   `<p align="center"><sub>Public repositories only. Checked daily; redrawn when a number changes.</sub></p>`,
   "<!-- stats:end -->",
 ].join("\n");
