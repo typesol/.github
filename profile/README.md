@@ -46,7 +46,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-dark.svg">
-    <img alt="3 public repositories, 4 stars, 1 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-light.svg" width="800">
+    <img alt="3 public repositories, 5 stars, 1 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/stats-light.svg" width="800">
   </picture>
 </p>
 <p align="center">
@@ -54,7 +54,7 @@ export function increment(authority: Signer, counter: Mut<Counter>, by: u64): vo
     <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/_head-dark.svg">
     <img alt="Repository, stars, forks, stars over time" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/_head-light.svg" width="800">
   </picture><br>
-  <a href="https://github.com/typesol/typesol"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/typesol-dark.svg"><img alt="typesol: 3 stars, 1 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/typesol-light.svg" width="800"></picture></a><br>
+  <a href="https://github.com/typesol/typesol"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/typesol-dark.svg"><img alt="typesol: 4 stars, 1 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/typesol-light.svg" width="800"></picture></a><br>
   <a href="https://github.com/typesol/.github"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/.github-dark.svg"><img alt=".github: 1 stars, 0 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/.github-light.svg" width="800"></picture></a><br>
   <a href="https://github.com/typesol/benchmarks"><picture><source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/benchmarks-dark.svg"><img alt="benchmarks: 0 stars, 0 forks" src="https://raw.githubusercontent.com/typesol/.github/main/profile/repos/benchmarks-light.svg" width="800"></picture></a>
 </p>
